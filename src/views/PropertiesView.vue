@@ -3,7 +3,7 @@
     <h1>Real Estate Listings</h1>
 
     <!-- Form to create a new property -->
-    <form @submit.prevent="createProperty">
+    <form @submit.prevent="createProperty" class="property-form">
       <input v-model="newProperty.title" placeholder="Title" required />
       <input
         v-model="newProperty.price"
@@ -24,13 +24,19 @@
       ></textarea>
       <button type="submit">Add Property</button>
     </form>
-
-    <div v-for="property in properties" :key="property.id" class="property">
-      <h2>{{ property.title }}</h2>
-      <p>Price: ${{ property.price }}</p>
-      <p>Location: {{ property.location }}</p>
-      <p>Type: {{ property.type }}</p>
-      <p>Description: {{ property.description }}</p>
+    <!-- Display existing properties -->
+    <div class="property-list">
+      <div
+        v-for="property in properties"
+        :key="property.id"
+        class="property-card"
+      >
+        <h2>{{ property.title }}</h2>
+        <p><strong>Price:</strong> ${{ property.price }}</p>
+        <p><strong>Location:</strong> {{ property.location }}</p>
+        <p><strong>Type:</strong> {{ property.type }}</p>
+        <p>{{ property.description }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -92,35 +98,74 @@ export default {
 </script>
 
 <style>
-.property {
-  margin-bottom: 20px;
-  padding: 10px;
+/* Container for the property list */
+.property-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Individual property cards */
+.property-card {
+  padding: 20px;
   border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-form {
-  margin-bottom: 20px;
+/* Card hover effects */
+.property-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-input,
-textarea {
+/* Property card title */
+.property-card h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+/* Property card details */
+.property-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Form styling */
+.property-form {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+/* Input and textarea styling */
+.property-form input,
+.property-form textarea {
   display: block;
-  margin-bottom: 10px;
-  padding: 8px;
   width: 100%;
-  max-width: 400px;
-  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-button {
-  padding: 8px 16px;
+/* Form button styling */
+.property-form button {
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-button:hover {
+.property-form button:hover {
   background-color: #0056b3;
 }
 </style>
