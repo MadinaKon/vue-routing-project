@@ -63,13 +63,14 @@ app.get("/api/properties/:id", (req, res) => {
 // POST a new property
 app.post("/api/properties", (req, res) => {
   const newProperty = {
-    id: properties.length + 1,
+    id: properties.length + 1, // Generate a simple ID (in real applications, use a UUID or database-generated ID)
     title: req.body.title,
     price: req.body.price,
     location: req.body.location,
-    description: req.body.description,
     type: req.body.type,
+    description: req.body.description,
   };
+
   properties.push(newProperty);
   res.status(201).json(newProperty);
 });
