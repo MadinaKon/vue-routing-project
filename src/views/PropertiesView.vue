@@ -24,6 +24,7 @@
       ></textarea>
       <button type="submit">Add Property</button>
     </form>
+
     <!-- Display existing properties -->
     <div class="property-list">
       <div
@@ -36,6 +37,56 @@
         <p><strong>Location:</strong> {{ property.location }}</p>
         <p><strong>Type:</strong> {{ property.type }}</p>
         <p>{{ property.description }}</p>
+      </div>
+    </div>
+    <div>
+      <!-- Property List with Edit Button -->
+      <div
+        v-for="property in properties"
+        :key="property.id"
+        class="property-card"
+      >
+        <h2>{{ property.title }}</h2>
+        <p><strong>Price:</strong> ${{ property.price }}</p>
+        <p><strong>Location:</strong> {{ property.location }}</p>
+        <p><strong>Type:</strong> {{ property.type }}</p>
+        <p>{{ property.description }}</p>
+        <button @click="editProperty(property)">Edit</button>
+      </div>
+
+      <!-- Form to Update Property -->
+      <div v-if="selectedProperty" class="property-form">
+        <h3>Edit Property</h3>
+        <form @submit.prevent="updateProperty">
+          <input
+            v-model="selectedProperty.title"
+            placeholder="Title"
+            required
+          />
+          <input
+            v-model="selectedProperty.price"
+            type="number"
+            placeholder="Price"
+            required
+          />
+          <input
+            v-model="selectedProperty.location"
+            placeholder="Location"
+            required
+          />
+          <input
+            v-model="selectedProperty.type"
+            placeholder="Type (e.g., apartment, house)"
+            required
+          />
+          <textarea
+            v-model="selectedProperty.description"
+            placeholder="Description"
+            required
+          ></textarea>
+          <button type="submit">Update Property</button>
+          <button type="button" @click="cancelEdit">Cancel</button>
+        </form>
       </div>
     </div>
   </div>
@@ -93,6 +144,36 @@ export default {
       } catch (error) {
         console.error("Error creating properties:", error);
       }
+    },
+
+    editProperty(property) {
+      // Clone the property to avoid directly mutating the original data
+      this.selectedProperty = { ...property };
+    },
+    async updateProperty() {
+      try {
+        const response = await axios.put(
+          `http://localhost:3000/api/properties/${this.selectedProperty.id}`,
+          this.selectedProperty
+        );
+
+        // Update the local properties array with the updated data
+        const index = this.properties.findIndex(
+          (p) => p.id === this.selectedProperty.id
+        );
+        if (index !== -1) {
+          this.properties.splice(index, 1, response.data);
+        }
+
+        // Clear the selected property and hide the form
+        this.selectedProperty = null;
+      } catch (error) {
+        console.error("Error updating property:", error);
+      }
+    },
+    cancelEdit() {
+      // Clear the selected property and hide the form
+      this.selectedProperty = null;
     },
   },
 };
