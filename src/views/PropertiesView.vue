@@ -67,11 +67,6 @@ export default {
       }
     },
     async createProperty() {
-      // try {
-      //   const request = await axios.post(
-      //     "http://localhost:3000/api/properties"
-      //   );
-      // }
       try {
         const response = await axios.post(
           "http://localhost:3000/api/properties",
