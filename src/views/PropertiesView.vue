@@ -1,54 +1,51 @@
 <template>
-  <div>
-    <h1>Real Estate Listings</h1>
-
-    <!-- Form to create or update a property -->
-    <form
-      @submit.prevent="isEditing ? updateProperty() : createProperty()"
-      class="property-form"
+  <h1>Real Estate Listings</h1>
+  <!-- Display existing properties -->
+  <div class="property-list">
+    <div
+      v-for="property in properties"
+      :key="property.id"
+      class="property-card"
     >
-      <input v-model="propertyForm.title" placeholder="Title" required />
-      <input
-        v-model="propertyForm.price"
-        type="number"
-        placeholder="Price"
-        required
-      />
-      <input v-model="propertyForm.location" placeholder="Location" required />
-      <input
-        v-model="propertyForm.type"
-        placeholder="Type (e.g., apartment, house)"
-        required
-      />
-      <textarea
-        v-model="propertyForm.description"
-        placeholder="Description"
-        required
-      ></textarea>
-      <button type="submit">
-        {{ isEditing ? "Update Property" : "Add Property" }}
+      <h2>{{ property.title }}</h2>
+      <p><strong>Price:</strong> ${{ property.price }}</p>
+      <p><strong>Location:</strong> {{ property.location }}</p>
+      <p><strong>Type:</strong> {{ property.type }}</p>
+      <p>{{ property.description }}</p>
+      <button @click="editProperty(property)" class="property-form">
+        Edit
       </button>
-      <button v-if="isEditing" type="button" @click="cancelEdit">Cancel</button>
-    </form>
-
-    <!-- Display existing properties -->
-    <div class="property-list">
-      <div
-        v-for="property in properties"
-        :key="property.id"
-        class="property-card"
-      >
-        <h2>{{ property.title }}</h2>
-        <p><strong>Price:</strong> ${{ property.price }}</p>
-        <p><strong>Location:</strong> {{ property.location }}</p>
-        <p><strong>Type:</strong> {{ property.type }}</p>
-        <p>{{ property.description }}</p>
-        <button @click="editProperty(property)" class="property-form">
-          Edit
-        </button>
-      </div>
     </div>
   </div>
+
+  <!-- Form to create or update a property -->
+  <form
+    @submit.prevent="isEditing ? updateProperty() : createProperty()"
+    class="property-form"
+  >
+    <input v-model="propertyForm.title" placeholder="Title" required />
+    <input
+      v-model="propertyForm.price"
+      type="number"
+      placeholder="Price"
+      required
+    />
+    <input v-model="propertyForm.location" placeholder="Location" required />
+    <input
+      v-model="propertyForm.type"
+      placeholder="Type (e.g., apartment, house)"
+      required
+    />
+    <textarea
+      v-model="propertyForm.description"
+      placeholder="Description"
+      required
+    ></textarea>
+    <button type="submit">
+      {{ isEditing ? "Update Property" : "Add Property" }}
+    </button>
+    <button v-if="isEditing" type="button" @click="cancelEdit">Cancel</button>
+  </form>
 </template>
 
 <script>
