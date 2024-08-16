@@ -90,15 +90,17 @@ app.put("/api/properties/:id", (req, res) => {
 });
 
 // DELETE a property
-// app.delete("/api/properties/:id", (req, res) => {
-//   const propertyIndex = properties.findIndex(
-//     (p) => p.id === parseInt(req.params.id)
-//   );
-//   if (propertyIndex === -1) return res.status(404).send("Property not found.");
+app.delete("/api/properties/:id", (req, res) => {
+  const propertyIndex = properties.findIndex(
+    (p) => p.id === parseInt(req.params.id)
+  );
+  if (propertyIndex === -1) return res.status(404).send("Property not found.");
 
-//   properties.splice(propertyIndex, 1);
-//   res.status(204).send();
-// });
+  // Remove the property from the array
+  properties.splice(propertyIndex, 1);
+
+  res.json({ message: "Property deleted successfully" });
+});
 
 // Start the server
 app.listen(port, () => {

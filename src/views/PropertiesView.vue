@@ -15,6 +15,9 @@
       <button @click="editProperty(property)" class="property-form">
         Edit
       </button>
+      <button @click="deleteProperty(property.id)" class="property-form">
+        Delete
+      </button>
     </div>
   </div>
 
@@ -118,6 +121,15 @@ export default {
         this.resetForm();
       } catch (error) {
         console.error("Error updating property:", error);
+      }
+    },
+    async deleteProperty(id) {
+      try {
+        await axios.delete(`http://localhost:3000/api/properties/${id}`);
+        // Remove the deleted property from the properties array
+        this.properties = this.properties.filter((p) => p.id !== id);
+      } catch (error) {
+        console.error("Error deleting property:", error);
       }
     },
     cancelEdit() {
