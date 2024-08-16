@@ -43,7 +43,9 @@
         <p><strong>Location:</strong> {{ property.location }}</p>
         <p><strong>Type:</strong> {{ property.type }}</p>
         <p>{{ property.description }}</p>
-        <button @click="editProperty(property)">Edit</button>
+        <button @click="editProperty(property)" class="property-form">
+          Edit
+        </button>
       </div>
     </div>
   </div>
