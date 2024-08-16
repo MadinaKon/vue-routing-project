@@ -78,6 +78,7 @@ app.post("/api/properties", (req, res) => {
 // PUT (update) an existing property
 app.put("/api/properties/:id", (req, res) => {
   const property = properties.find((p) => p.id === parseInt(req.params.id));
+
   if (!property) return res.status(404).send("Property not found.");
 
   property.title = req.body.title;
@@ -87,18 +88,6 @@ app.put("/api/properties/:id", (req, res) => {
   property.type = req.body.type;
   res.json(property);
 });
-
-// app.put("/api/properties/:id", (req, res) => {
-//   const property = properties.find((p) => p.id === parseInt(req.params.id));
-//   if (!property) return res.status(404).send("Property not found.");
-
-//   property.title = req.body.title;
-//   property.price = req.body.price;
-//   property.location = req.body.location;
-//   property.description = req.body.description;
-//   property.type = req.body.type;
-//   res.json(property);
-// });
 
 // DELETE a property
 // app.delete("/api/properties/:id", (req, res) => {
