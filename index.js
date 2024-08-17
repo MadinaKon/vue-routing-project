@@ -106,3 +106,21 @@ app.delete("/api/properties/:id", (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+let advertisements = [];
+
+app.post("/api/properties/:propertyId/advertisements", (req, res) => {
+  const propertyId = parseInt(req.params.propertyId);
+  const property = properties.find((p) => p.id === propertyId);
+  if (!property) return res.status(404).send("Property not found.");
+
+  const advertisement = {
+    id: advertisements.length + 1,
+    propertyId: propertyId,
+    title: req.body.title,
+    description: req.body.description,
+  };
+
+  advertisements.push(advertisement);
+  res.status(201).json(advertisement);
+});

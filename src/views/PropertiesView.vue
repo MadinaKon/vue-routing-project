@@ -167,6 +167,23 @@ export default {
       <button @click="deleteProperty(property.id)" class="property-form">
         Delete
       </button>
+      <button @click="selectPropertyForAd(property.id)" class="property-form">
+        Create Advertisement
+      </button>
+    </div>
+    <!-- Form to create an advertisement -->
+    <div v-if="selectedPropertyId !== null" class="property-form">
+      <h3>Create Advertisement for Property ID: {{ selectedPropertyId }}</h3>
+      <form @submit.prevent="createAdvertisement">
+        <input v-model="adForm.title" placeholder="Ad Title" required />
+        <textarea
+          v-model="adForm.description"
+          placeholder="Ad Description"
+          required
+        ></textarea>
+        <button type="submit">Create Advertisement</button>
+        <button type="button" @click="cancelAdCreation">Cancel</button>
+      </form>
     </div>
   </div>
 
@@ -296,6 +313,46 @@ export default {
       };
     };
 
+    const selectedPropertyId = ref(null);
+    const adForm = ref({
+      title: "",
+      description: "",
+    });
+
+    const selectPropertyForAd = (propertyId) => {
+      selectedPropertyId.value = propertyId;
+    };
+
+    const createAdvertisement = async () => {
+      try {
+        if (!selectedPropertyId.value) {
+          throw new Error(
+            "Property ID is missing. Cannot create advertisement."
+          );
+        }
+        const response = await axios.post(
+          `http://localhost:3000/api/properties/${selectedPropertyId.value}/advertisements`,
+          adForm.value
+        );
+        console.log("Advertisement created:", response.data);
+        resetAdForm();
+      } catch (error) {
+        console.error("Error creating advertisement:", error);
+      }
+    };
+
+    const cancelAdCreation = () => {
+      resetAdForm();
+    };
+
+    const resetAdForm = () => {
+      selectedPropertyId.value = null;
+      adForm.value = {
+        title: "",
+        description: "",
+      };
+    };
+
     onMounted(fetchProperties);
 
     return {
@@ -309,6 +366,11 @@ export default {
       deleteProperty,
       cancelEdit,
       resetForm,
+      selectedPropertyId,
+      adForm,
+      selectPropertyForAd,
+      createAdvertisement,
+      cancelAdCreation,
     };
   },
 };
