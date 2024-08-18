@@ -19,6 +19,13 @@ let properties = [
     location: "New York",
     description: "A beautiful modern apartment in downtown.",
     type: "apartment",
+    advertisements: {
+      title: "Modern Apartment",
+      price: 120000,
+      location: "New York",
+      description: "A beautiful modern apartment in downtown.",
+      type: "apartment",
+    },
   },
   {
     id: 2,
@@ -123,4 +130,16 @@ app.post("/api/properties/:propertyId/advertisements", (req, res) => {
 
   advertisements.push(advertisement);
   res.status(201).json(advertisement);
+});
+
+app.get("/api/advertisements", (req, res) => {
+  res.json(advertisements);
+});
+
+app.get("/api/properties/:propertyId/advertisements", (req, res) => {
+  const propertyId = parseInt(req.params.propertyId);
+  const propertyAds = advertisements.filter(
+    (ad) => ad.propertyId === propertyId
+  );
+  res.json(propertyAds);
 });

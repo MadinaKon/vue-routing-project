@@ -25,10 +25,17 @@ const router = createRouter({
       name: "properties",
       component: PropertiesView,
     },
+    // {
+    //   path: "/advertisements",
+    //   name: "Advertisements",
+    //   component: AdvertisementsView,
+    // },
+
     {
-      path: "/advertisements",
-      name: "Advertisements",
+      path: "/properties/:propertyId/advertisements",
+      name: "PropertyAdvertisements",
       component: AdvertisementsView,
+      props: true, // Allows passing route params as props
     },
     {
       path: "/appointments",

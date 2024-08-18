@@ -1,0 +1,21 @@
+.ad-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ad-card {
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  width: 300px;
+  background-color: #f9f9f9;
+}
+
+.ad-card h2 {
+  margin: 0 0 8px;
+}
+
+.ad-card p {
+  margin: 4px 0;
+}

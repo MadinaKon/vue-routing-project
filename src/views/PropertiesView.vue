@@ -170,6 +170,10 @@ export default {
       <button @click="selectPropertyForAd(property.id)" class="property-form">
         Create Advertisement
       </button>
+
+      <RouterLink :to="`/properties/${property.id}/advertisements`">
+        <button class="view-ads-button">View Advertisements</button>
+      </RouterLink>
     </div>
     <!-- Form to create an advertisement -->
     <div v-if="selectedPropertyId !== null" class="property-form">
@@ -221,6 +225,7 @@ export default {
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import "@/styles/propertyStyles.css";
+import { RouterLink } from "vue-router";
 
 export default {
   setup() {
